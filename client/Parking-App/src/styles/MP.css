@@ -1,0 +1,93 @@
+.MP{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 700px;
+}
+.main-dash{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    background-color: transparent;
+}
+.prof-dash {
+   
+    display: flex;
+    align-items: center;
+    width: 25px;
+    height: 650px;
+    background-color: yellow;
+    cursor: pointer;
+    margin-top: 1%;
+  }
+
+  .prof-dash>i{
+    padding: 0 0 10px 10px;
+    cursor: pointer;
+  }
+  .prof-dash>.user,.prof-dash>.owner{
+    display: none;
+  }
+
+.prof-dash-after{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    height: 650px;
+    background-color: yellow;
+    margin-top: 1%;
+    animation: out 0.4s  ease-in forwards;
+}
+.prof-dash-after>i{
+    padding:10px 10px;
+    cursor: pointer;
+    transform: rotate(180deg);
+    transition: all ease-in 0.2s;
+    border-radius: 25%;
+    background-color: black;
+    color: yellow;
+  
+}
+  @keyframes out {
+    0% {
+      width:25px;
+      opacity:0.5;
+      color: transparent;
+    }
+    100% {
+      color: black;
+      width:20%;
+      opacity: 1;
+    }
+  }
+.user,.owner{
+    display: flex;
+    width: 200px;
+    
+    justify-content: flex-end;
+    flex-direction: column;
+    gap:10%;
+   
+}
+.user>p,.owner>p{
+    width: 100px;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: large;
+}
+.main-content{
+  width: 95%;
+  padding: 15px 15px 25px 25px;
+}
+.loc_grid{
+  display: flex;
+  flex-direction: row;
+  gap: 3%;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
