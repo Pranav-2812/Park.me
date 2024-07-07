@@ -5,36 +5,41 @@ import { useNavigate } from 'react-router-dom';
 import Slots from './Slots';
 const SlorGrid = () => {
   const context = useContext(noteContext);
-  const { locationStatus,available } = context;
+  const { locationStatus, available } = context;
   let [slots, setSlots] = useState("");
-  const[msg,setMsg] =useState("")
+  const [msg, setMsg] = useState("")
   const navigate = useNavigate()
   useEffect(() => {
     async function status() {
-      if(available){
+      if (available) {
         const id = available.location[0]._id;
         console.log(id)
-       if(id!==null){
-        const result = await locationStatus(id);
-        setSlots((prev)=>prev = result);
-        // console.log(slots, result)
-       }else{
-        navigate("/DashBoard/Locations")
-       }
+        if (id !== null) {
+          const result = await locationStatus(id);
+          setSlots((prev) => prev = result);
+          // console.log(slots, result)
+        } else {
+          navigate("/DashBoard/Locations")
+        }
       }
-      setMsg((prev)=>prev="Please go Back and Try again!");
+      else {
+        setMsg((prev) => prev = "Please go Back and Try again!");
+      }
     }
     status()
-  }, [slots!==""])
+  }, [slots !== ""])
   return (
     <>
-     {msg ? <h1>{msg}</h1>:
-         <div className='SlorGrid' >
-         {slots? <div className='content'>{slots.map((slot)=>{
-         return <Slots key={slot._id} info={slot}/>
-       })}</div>:"NO Slot available"}
-     
-     </div>}
+      {msg ? <h1>{msg}</h1> :
+        <div className='grid_main'>
+          <h2>Parking Slots</h2>
+          <div className='SlorGrid' >
+            {slots ? <div className='content'>{slots.map((slot) => {
+              return <Slots key={slot._id} info={slot} />
+            })}</div> : "NO Slot available"}
+
+          </div>
+        </div>}
     </>
   )
 }

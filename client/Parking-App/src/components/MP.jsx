@@ -5,8 +5,8 @@ import LocGrid from './LocGrid'
 const MP = (props) => {
   const profDashRef = useRef(null)
   const [disp, setDisp] = useState(false);
-  const[data,setMpData] = useState("");
-  const[available,setMpAvail] = useState("");
+  const [data, setMpData] = useState("");
+  const [available, setMpAvail] = useState("");
   const click = () => {
     if (disp === true) {
       profDashRef.current.setAttribute("class", "prof-dash")
@@ -19,27 +19,27 @@ const MP = (props) => {
 
   }
   const context = useContext(noteContext);
-  const { Fetchdata,setData,setAvail, isAvailable} = context;
+  const { Fetchdata, setData, setAvail, isAvailable } = context;
   useEffect(() => {
     async function getData() {
       const result = await Fetchdata();
-      if(result.success ===false){
+      if (result.success === false) {
         alert(result.msg)
       }
-      setData((prev)=>prev=result);
-      setMpData((prev)=>prev=result);
+      setData((prev) => prev = result);
+      setMpData((prev) => prev = result);
       if (data) {
         const result1 = await isAvailable(data._id);
         if (result1 === false) {
           alert(result1.msg);
         }
-        setAvail((prev)=>prev=result1);
-        setMpAvail((prev)=>prev=result1);
+        setAvail((prev) => prev = result1);
+        setMpAvail((prev) => prev = result1);
       }
 
     }
     getData();
-  }, [data!==""]);
+  }, [data !== ""]);
 
 
 
@@ -50,9 +50,17 @@ const MP = (props) => {
     <div className='MP' >
       <div className="main-dash">
         <div className="main-content" >
-          {available ? available.location ? <div className='loc_grid'>{available.location.map((loc) => {
-            return <LocGrid key={loc._id} loc={loc} setProgress={props.setProgress} />
-          })}</div> : <h2>Sorry,we are trying to get you there!</h2> : "Sorry no Locations availble in your city!"}
+          {available ? available.location ?
+            <div className='loc_grid'>
+              <h2>Available Parking Locations</h2>
+              
+                <div className="grid">
+                {available.location.map((loc) => {
+                return <LocGrid key={loc._id} loc={loc} setProgress={props.setProgress} />
+              })}
+                </div>
+            </div> 
+              : <h2>Sorry,we are trying to get you there!</h2> : "Sorry no Locations availble in your city!"}
         </div>
         <div className="prof-dash" ref={profDashRef}  >
           <i className="fa-solid fa-angle-left" onClick={click}></i>

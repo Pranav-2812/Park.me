@@ -20,8 +20,8 @@ import Home from './components/Home';
 import Notesate from './Context/Notesate';
 import LocGrid from './components/LocGrid';
 import SlorGrid from './components/SlorGrid';
-
-
+import io from "socket.io-client";
+const socket = io.connect("http://127.0.0.1:3000");
 
 function App() {
   const navigate = useNavigate();

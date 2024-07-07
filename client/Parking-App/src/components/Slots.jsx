@@ -3,8 +3,8 @@ import "../styles/Slots.css"
 import noteContext from '../Context/Notecontext';
 const Slots = (props) => {
   const context = useContext(noteContext);
-  const {data} = context;
-  const [duration, setDuration] = useState(0);
+  const { data } = context;
+  const [bookInfo, setBookInfo] = useState({ startTime: "", duration: 0 });
   useEffect(() => {
     if (!props.info.isAvailable) {
       document.querySelector('.slot').style.border = "2px solid red";
@@ -21,10 +21,10 @@ const Slots = (props) => {
       closeModal();
     }
   }
-  
   const change = (e) => {
-    setDuration(e.target.value);
+    setBookInfo({ ...bookInfo, [e.target.name]: e.target.value });
   }
+
   return (
     <>
       <div className='slot' >
@@ -43,14 +43,15 @@ const Slots = (props) => {
           <hr></hr>
           <div className="modal_body">
             <div className="label">
-              <label htmlFor='duration'>Enter Duration&ensp;<p>{duration<20&&duration!=="" ?"Can't Park for less than 20m":"(IN MINUTES)"}</p></label>
+              <label htmlFor='duration'>Enter Duration&ensp;<p>{bookInfo.duration < 20 && bookInfo.duration !== "" ? "Can't Park for less than 20m" : "(IN MINUTES)"}</p></label>
             </div>
-            <input required autoComplete='on' name='duration'  min={20} value={duration} onChange={change} type='number' id='duration' />
-            {duration>=20?
-           <span className='bill'>
-            Total payable for {duration} min : {data?data.vehicle_type==="bike"?"Rs."+duration*0.5:"Rs."+duration*1:console.log(context)} 
-           </span>:""}
-           <button>Pay Now</button>
+            <input required autoComplete='on' name='duration' min={20} value={bookInfo.duration} onChange={change} type='number' id='duration' />
+            {bookInfo.duration >= 20 ?
+              <span className='bill'>
+                Total payable for {bookInfo.duration} min : {data ? data.vehicle_type === "bike" ? "Rs." + bookInfo.duration * 0.5 : "Rs." + bookInfo.duration * 1 : console.log(context)}
+              </span> : ""}
+            <button type='submit'>Pay Now</button>
+
           </div>
         </div>
       </div>
