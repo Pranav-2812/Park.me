@@ -33,7 +33,7 @@ const UserSign = (props) => {
                 
                 localStorage.setItem('token', json.jwtToken);
                 props.setProgress(100)
-                navigate('/');
+                navigate('/DashBoard');
             }
             else {
                 alert(json.error);
@@ -83,8 +83,8 @@ const UserSign = (props) => {
                                 <label htmlFor="vehicle_type">Vehicle Type</label>
                                 <select required name='vehicle_type' id='vehicle_type' value={creds.vehicle_type} autoComplete="on" onChange={change}>
                                     <option>Select Type</option>
-                                    <option>Bike</option>
-                                    <option>Car</option>
+                                    <option>bike</option>
+                                    <option>car</option>
                                 </select>
                             </div>
                             <div className="input-format">

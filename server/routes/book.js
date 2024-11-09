@@ -51,35 +51,41 @@ router.get("/isAvailable",async(req,res)=>{
 router.get("/location/status/:id",getuser,async(req,res)=>{
     
     try {
+        
         if(req.params.id === null){
-            console.log("sahi hai")
+            console.log({success:false,msg:"Please refresh"})
             return res.json({success:false,msg:"Please refresh"});
         }
         let user = await User.findById(req.user.id);
         if(!user){
+            console.log({success:false,msg:"user not found"});
             return res.json({success:false,msg:"user not found"});
         }
         let vehicle;
         if(user.vehicle_type==="car"){
             if(req.params.id === null){
-                console.log("sahi hai")
+                console.log({success:false,msg:"Please refresh"});
                 return res.json({success:false,msg:"Please refresh"})
             }
             vehicle = await carSlot.find({location:req.params.id})
             if(!vehicle){
+                console.log({success:false,msg:"some error occured"});
                 return res.json({success:false,msg:"some error occured"})
             }
+            console.log({success:true});
             return res.status(200).json({success:true,vehicle});
         }
         if(user.vehicle_type ==="bike"){
             if(req.params.id === null){
-                console.log("sahi hai")
+                console.log({success:false,msg:"Please refresh"});
                 return res.json({success:false,msg:"Please refresh"})
             }
             vehicle = await bikeSlot.find({location:req.params.id})
             if(!vehicle){
+                console.log({success:false,msg:"some error occured"});
                 return res.json({success:false,msg:"some error occured"})
             }
+            console.log({success:true})
             return res.status(200).json({success:true,vehicle});
         }
         
@@ -91,7 +97,7 @@ router.get("/location/status/:id",getuser,async(req,res)=>{
 //book a slot ,login required
 router.post("/book/slot/:id",getuser,async(req,res)=>{
     const { duration}= req.body;
-    
+    const io = req.app.get("socket");
      try {
         let user = await User.findById(req.user.id);
         if(!user){
@@ -106,7 +112,7 @@ router.post("/book/slot/:id",getuser,async(req,res)=>{
                 return res.json({success:false,msg:"Some error occured"});
             }
             charges = 1*duration;
-            slot = await carSlot.findByIdAndUpdate(slot.id,{isAvailable:false},{new:true});
+            slot = await carSlot.findByIdAndUpdate(slot.id,{isAvailable:false,duration:duration},{new:true});
             
         }
         if(user.vehicle_type ==="bike"){
@@ -134,6 +140,7 @@ router.post("/book/slot/:id",getuser,async(req,res)=>{
 
         });
         res.status(200).json({success:true,transaction,slot});
+        io.emit("book",transaction);
     } catch (error) {
         console.log(error);
         res.json({success:false,msg:"Some Error occured"});

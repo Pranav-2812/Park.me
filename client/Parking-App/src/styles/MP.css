@@ -81,7 +81,7 @@
 }
 .main-content{
   width: 95%;
-  padding: 15px 15px 25px 25px;
+  padding: 0px 15px 25px 25px;
 }
 .loc_grid{
   display: flex;

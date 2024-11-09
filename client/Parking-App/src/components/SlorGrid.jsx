@@ -17,17 +17,24 @@ const SlorGrid = () => {
         if (id !== null) {
           const result = await locationStatus(id);
           setSlots((prev) => prev = result);
-          // console.log(slots, result)
+          localStorage.setItem("slots",slots);
+          console.log(slots, result)
         } else {
           navigate("/DashBoard/Locations")
         }
       }
-      else {
-        setMsg((prev) => prev = "Please go Back and Try again!");
-      }
+
     }
     status()
   }, [slots !== ""])
+  useEffect(()=>{
+    if(localStorage.getItem("slots")){
+      console.log(localStorage.getItem("slots"))
+      setSlots((prev)=>localStorage.getItem('slots'));
+    }
+  },[document.location.reload])
+
+  
   return (
     <>
       {msg ? <h1>{msg}</h1> :

@@ -28,6 +28,7 @@ const MP = (props) => {
       }
       setData((prev) => prev = result);
       setMpData((prev) => prev = result);
+      console.log(data)
       if (data) {
         const result1 = await isAvailable(data._id);
         if (result1 === false) {
@@ -69,8 +70,8 @@ const MP = (props) => {
               <p>{data.name}</p>
               <p>{data.email}</p>
               <p>{data.Mob_no}</p>
-              <p>{data.vehcile_number}</p>
-              <p>{data.vehcile_type}</p>
+              <p>{data.vehicle_number}</p>
+              <p>{data.vehicle_type}</p>
               <p>{data.city}</p>
               <p>{data.vehicles}</p>
             </div>

@@ -26,9 +26,10 @@ io.on('connection',(socket)=>{
   })
 })
 
-app.use(express.json()); //so that we can use json in express
+app.use(express.json()); 
 app.get('/', (req, res) => {
   res.send('Hello World!')
+  req.app.set("socket",io);
 })
 app.use("/auth",require("./routes/auth"));
 app.use("/owner",require("./routes/owner"));
@@ -36,5 +37,5 @@ app.use("/status",require("./routes/book"));
 
 
 server.listen(3000,()=>{
-  console.log(`Server running on http://127.0.0.1.3000`);
+  console.log(`Server running on http://127.0.0.1:3000`);
 })
