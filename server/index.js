@@ -25,11 +25,11 @@ io.on('connection',(socket)=>{
     console.log(`${socket.id} user disconnected`);
   })
 })
-
+app.set("socket", io);
 app.use(express.json()); 
 app.get('/', (req, res) => {
   res.send('Hello World!')
-  req.app.set("socket",io);
+
 })
 app.use("/auth",require("./routes/auth"));
 app.use("/owner",require("./routes/owner"));

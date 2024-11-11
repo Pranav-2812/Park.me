@@ -46,7 +46,7 @@ const UserLogin = (props) => {
                         <input required autoComplete='on' type='email' name="email" value={logcred.email} onChange={change} id="email" placeholder="" />
                     </div>
                     <div className="input-format">
-                        <label htmlFor="password">Password</label>
+                        <div className="label"><label htmlFor="password">Password</label></div>
                         <input required autoComplete='on' type='password' name="password" value={logcred.password}onChange={change} id="password" placeholder="" />
                     </div>
                     <button className='form-btn' type='submit'>Login</button>

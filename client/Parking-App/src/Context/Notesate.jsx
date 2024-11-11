@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import noteContext from './Notecontext'
-import io from "socket.io-client";
+// import io from "socket.io-client";
 const Notesate = (props) => {
-  const socket = io.connect("http://127.0.0.1:3000");
+  // const socket = io("http://127.0.0.1:3000/",{
+  //   transports:["websocket"]
+  // });
   const [data,setData] = useState(null);
   const [available, setAvail] = useState(null);
   const Fetchdata = async () => {
@@ -107,7 +109,7 @@ const Notesate = (props) => {
         "Content-Type":"application/json",
         "auth-token":localStorage.getItem("token")
       },
-      body:JSON.stringify({duration})
+      body:JSON.stringify({duration:35})
     });
     props.setProgress(50);
     const json = await response.json();
@@ -125,7 +127,7 @@ const Notesate = (props) => {
   }
   return (
     <div>
-      <noteContext.Provider value={{ Fetchdata, locationStatus,data,available,socket,setData,setAvail,bookSlot, isAvailable, updateSlot }}>{props.children}</noteContext.Provider>
+      <noteContext.Provider value={{ Fetchdata, locationStatus,data,available,setData,setAvail,bookSlot, isAvailable, updateSlot }}>{props.children}</noteContext.Provider>
     </div>
   )
 }

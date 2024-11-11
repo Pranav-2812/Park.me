@@ -17,7 +17,7 @@ const SlorGrid = () => {
         if (id !== null) {
           const result = await locationStatus(id);
           setSlots((prev) => prev = result);
-          localStorage.setItem("slots",slots);
+          localStorage.setItem("slots", JSON.stringify(slots));
           console.log(slots, result)
         } else {
           navigate("/DashBoard/Locations")
@@ -25,16 +25,31 @@ const SlorGrid = () => {
       }
 
     }
-    status()
+    status();
   }, [slots !== ""])
-  useEffect(()=>{
-    if(localStorage.getItem("slots")){
-      console.log(localStorage.getItem("slots"))
-      setSlots((prev)=>localStorage.getItem('slots'));
+  useEffect(() => {
+    // if(localStorage.getItem("slots")){
+    //   console.log(JSON.parse(localStorage.getItem("slots")));
+    //   setSlots((prev)=>JSON.parse(localStorage.getItem("slots")));
+    // }
+    async function reload() {
+      if (available) {
+        const id = available.location[0]._id;
+        if (id !== null) {
+          const result = await locationStatus(id);
+          setSlots((prev) => prev = result);
+          localStorage.setItem("slots", JSON.stringify(slots));
+          console.log(slots, result)
+        }
+      }
+      else{
+        setSlots((prev)=>JSON.parse(localStorage.getItem("slots")));
+      }
     }
-  },[document.location.reload])
+    reload();
+  }, [document.location.reload])
 
-  
+
   return (
     <>
       {msg ? <h1>{msg}</h1> :
@@ -43,7 +58,7 @@ const SlorGrid = () => {
           <div className='SlorGrid' >
             {slots ? <div className='content'>{slots.map((slot) => {
               return <Slots key={slot._id} info={slot} />
-            })}</div> : "NO Slot available"}
+            })}</div> : "No Slot available"}
 
           </div>
         </div>}

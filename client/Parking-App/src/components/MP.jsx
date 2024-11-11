@@ -28,7 +28,7 @@ const MP = (props) => {
       }
       setData((prev) => prev = result);
       setMpData((prev) => prev = result);
-      console.log(data)
+      
       if (data) {
         const result1 = await isAvailable(data._id);
         if (result1 === false) {

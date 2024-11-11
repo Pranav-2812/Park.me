@@ -98,6 +98,7 @@ router.get("/location/status/:id",getuser,async(req,res)=>{
 router.post("/book/slot/:id",getuser,async(req,res)=>{
     const { duration}= req.body;
     const io = req.app.get("socket");
+    io.emit("hi","chalu ho gaya");
      try {
         let user = await User.findById(req.user.id);
         if(!user){
@@ -140,6 +141,7 @@ router.post("/book/slot/:id",getuser,async(req,res)=>{
 
         });
         res.status(200).json({success:true,transaction,slot});
+        
         io.emit("book",transaction);
     } catch (error) {
         console.log(error);
