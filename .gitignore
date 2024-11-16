@@ -8,6 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 .env.local
+localhost-cert.pem
+localhost-csr.pem
+localhost-key.pem
 node_modules
 dist
 dist-ssr

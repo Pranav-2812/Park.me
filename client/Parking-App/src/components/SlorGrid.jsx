@@ -13,7 +13,7 @@ const SlorGrid = () => {
     async function status() {
       if (available) {
         const id = available.location[0]._id;
-        console.log(id)
+        console.log(available, id)
         if (id !== null) {
           const result = await locationStatus(id);
           setSlots((prev) => prev = result);

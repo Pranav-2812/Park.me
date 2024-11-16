@@ -20,6 +20,7 @@ import Home from './components/Home';
 import Notesate from './Context/Notesate';
 import LocGrid from './components/LocGrid';
 import SlorGrid from './components/SlorGrid';
+import Avail from './components/Avail';
 
 
 
@@ -48,7 +49,7 @@ function App() {
           <Route exact path='/ownerLog' element={<OLog setProgress={setProgress} />}></Route>
           <Route exact path='/DashBoard' element={<MP setProgress={setProgress} />}></Route>
           <Route exact path="/DashBoard/Locations"element={<SlorGrid setProgress={setProgress}/>}></Route>
-
+          <Route exact path='/AvailCheck' element={<Avail setProgress={setProgress} />}></Route>
 
         </Routes>
       </Notesate>

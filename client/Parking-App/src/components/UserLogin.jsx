@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../styles/Login.css"
 import { Link, useNavigate } from 'react-router-dom'
+import AOS from "aos"
+import "aos/dist/aos.css"
 const UserLogin = (props) => {
     const [logcred, setlogcred] = useState({email:"",password:""})
     const change = (event)=>{
@@ -11,7 +13,7 @@ const UserLogin = (props) => {
         e.preventDefault();
         const {email,password} = logcred;
         props.setProgress(25)
-        const response = await fetch("http://127.0.0.1:3000/auth/login/userac", {
+        const response = await fetch("https://127.0.0.1:3000/auth/login/userac", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "application/json"
@@ -35,8 +37,11 @@ const UserLogin = (props) => {
             console.log(json.error);
         }
     }
+    useEffect(()=>{
+        AOS.init();
+    },[])
     return (
-        <div className="form-container">
+        <div className="form-container" data-aos="fade-down-right">
             
             <div className="login-form-container">
                 <h2>Login</h2>

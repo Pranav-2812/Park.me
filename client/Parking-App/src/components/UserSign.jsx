@@ -18,7 +18,7 @@ const UserSign = (props) => {
         
         if(re.test(vehicle_no)){
             props.setProgress(35)
-            const response = await fetch("http://127.0.0.1:3000/auth/Acc/newUser", {
+            const response = await fetch("https://127.0.0.1:3000/auth/Acc/newUser", {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "application/json"
@@ -30,7 +30,7 @@ const UserSign = (props) => {
             props.setProgress(75)
             console.log(json)
             if (json.success === true) {
-                
+                localStorage.setItem("acc",json.account)
                 localStorage.setItem('token', json.jwtToken);
                 props.setProgress(100)
                 navigate('/DashBoard');

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import "../styles/Navbar.css"
 import { Link, useNavigate } from 'react-router-dom'
-import noteContext from '../Context/Notecontext'
 
 const Navbar = (props) => {
   const navigate = useNavigate()
@@ -24,7 +23,7 @@ const Navbar = (props) => {
       <div className="logo">PARK.ME</div>
       <div className="elements">
         <ul>
-          <li className='links'><Link className='link-txt' to={"/"}>HOME</Link></li>
+          <li className='links'><Link className='link-txt' to={"/Home"}>HOME</Link></li>
           <li className='links'><Link className='link-txt' to={"/About"}>ABOUT</Link></li>
           <li className='links'><Link className='link-txt' to={"/AvailCheck"}>AVAILABILITY</Link></li>
           <li className='links'><Link className='link-txt' to={"/Contact"}>CONTACT</Link></li>
