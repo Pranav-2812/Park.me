@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import "../styles/Navbar.css"
 import { Link, useNavigate } from 'react-router-dom'
-import noteContext from '../Context/Notecontext'
 
 const Navbar = (props) => {
   const navigate = useNavigate()
@@ -24,14 +23,14 @@ const Navbar = (props) => {
       <div className="logo">PARK.ME</div>
       <div className="elements">
         <ul>
-          <li className='links'><Link className='link-txt' to={"/"}>HOME</Link></li>
+          <li className='links'><Link className='link-txt' to={"/Home"}>HOME</Link></li>
           <li className='links'><Link className='link-txt' to={"/About"}>ABOUT</Link></li>
           <li className='links'><Link className='link-txt' to={"/AvailCheck"}>AVAILABILITY</Link></li>
           <li className='links'><Link className='link-txt' to={"/Contact"}>CONTACT</Link></li>
         </ul>
         {!localStorage.getItem("token") ? <div className="btns">
-          <span className='nav-btn'><Link className='link-btn' to={"/AuthSign"}>SIGN UP</Link></span>
-          <span className='nav-btn'><Link className='link-btn' to={"/AuthLog"}>LOGIN</Link></span>
+          <Link className='nav-btn' to={"/AuthSign"}><span className='link-btn' >SIGN UP</span></Link>
+          <Link className='nav-btn' to={"/AuthLog"}><span className='link-btn' >LOGIN</span></Link>
         </div> : <button className='logout' onClick={Logout}>Log Out!</button>}
 
       </div>

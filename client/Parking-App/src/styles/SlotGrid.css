@@ -6,7 +6,7 @@
     width: 95%;
     height: 100vh;
     padding:  0% 3% 0 3%;
-    overflow: auto;
+
     
 }
 ::-webkit-scrollbar{
@@ -20,7 +20,6 @@
     padding-left: 2%;
     background-color: black;
     color: yellow;
-    position:fixed;
     z-index: 1;
 }
 .SlorGrid{
@@ -29,6 +28,7 @@
     justify-content: space-between;
     margin-top: 5%;
     height: 100vh;
+   
 }
 .content{
     width: 100%;
@@ -37,4 +37,6 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 3%;
+    margin-top: 2%;
+    overflow: auto;
 }

@@ -71,7 +71,6 @@ router.post("/Acc/newUser",[body('name').isEmpty().isLength({ min: 3 }),
 router.post("/Acc/Owner",[body('name').isEmpty().isLength({ min: 3 }),
     body('email').isEmail(), 
     body('password').isLength({ min: 5 }),
-    body("Mob_No").isLength({min:10}),
     body("city").isEmpty()],async(req, res)=>{
         const result = validationResult(req)
         if (result.isEmpty()) {
@@ -89,7 +88,7 @@ router.post("/Acc/Owner",[body('name').isEmpty().isLength({ min: 3 }),
                 name: req.body.name,
                 email:req.body.email,
                 password:hashPass,
-                Mob_no:req.body.mob,
+                Mob_no:req.body.Mob_no,
                 city:req.body.city,
                 locations:1,
                 ucc:uccode

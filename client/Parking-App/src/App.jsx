@@ -18,10 +18,11 @@ import { useEffect, useState } from 'react';
 import MP from './components/MP';
 import Home from './components/Home';
 import Notesate from './Context/Notesate';
-import LocGrid from './components/LocGrid';
-import SlorGrid from './components/SlorGrid';
-import io from "socket.io-client";
-const socket = io.connect("http://127.0.0.1:3000");
+import BikeSlotGrid from './components/BikeSlotGrid';
+// import LocGrid from './components/LocGrid';
+import Avail from './components/Avail';
+import CarSlotGrid from './components/CarSlotGrid';
+
 
 function App() {
   const navigate = useNavigate();
@@ -47,9 +48,9 @@ function App() {
           <Route exact path='/ownerSign' element={<OwnerSign setProgress={setProgress} />}></Route>
           <Route exact path='/ownerLog' element={<OLog setProgress={setProgress} />}></Route>
           <Route exact path='/DashBoard' element={<MP setProgress={setProgress} />}></Route>
-          <Route exact path="/DashBoard/Locations"element={<SlorGrid setProgress={setProgress}/>}></Route>
-
-
+          <Route exact path="/Dashboard/location/bike_slots"element={<BikeSlotGrid setProgress={setProgress}/>}></Route>
+          <Route exact path='/AvailCheck' element={<Avail setProgress={setProgress} />}></Route>
+          <Route exact path="/Dashboard/location/car_slots"element={<CarSlotGrid setProgress={setProgress}/>}></Route>
         </Routes>
       </Notesate>
     </>
