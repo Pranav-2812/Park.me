@@ -48,8 +48,14 @@
 .label{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    width: 90%;
+}
+.label>label{
+    width: 60%;
 }
 .label>p{
+    width: 40%;
     color: red;
     width: 150px;
     font-family: "Chakra Petch", sans-serif;

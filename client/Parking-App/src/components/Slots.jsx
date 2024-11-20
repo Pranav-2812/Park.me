@@ -110,7 +110,7 @@ const Slots = (props) => {
   const ref = useRef();
   const [bookInfo, setBookInfo] = useState({ duration: 0 });
   const [modal, setModal] = useState(false);
-
+  const ola_api_key = import.meta.env.VITE_OLA_API_KEY;
   // Update slot availability styles on mount
   useEffect(() => {
     if (props.info._id) {
@@ -164,12 +164,19 @@ const Slots = (props) => {
   // Book slot handler
   const book = async () => {
     if (ref.current && ref.current.id) {
-      const result = await bookSlot(ref.current.id);
-      if (result.success === true) {
-        console.log("booked");
-        closeModal();
-      } else {
-        console.log(result.error);
+      const lat =  JSON.parse(localStorage.getItem('coordinates')).lat;
+      const lng = JSON.parse(localStorage.getItem('coordinates')).lng
+      const response = await fetch(`https://api.olamaps.io/routing/v1/distanceMatrix/basic?origins=${lat}%2C${lng}&destinations=${Number(props.loc.latitude.$numberDecimal)}%2C${Number(props.loc.longitude.$numberDecimal)}&api_key=${ola_api_key}`);
+      const data = await response.json();
+      let distance = 0;
+      data.rows[0].elements.map((ele)=>{
+        distance += ele.distance;
+      });
+      if(distance > 5000){
+        console.log("Cant park too far from location" ,distance);
+      }
+      else{
+        console.log("can park");
       }
     }
   };
@@ -204,12 +211,12 @@ const Slots = (props) => {
               <div className="label">
                 <label htmlFor="duration">
                   Enter Duration
-                  <p>
+                </label>
+                <p>
                     {bookInfo.duration < 20 && bookInfo.duration !== ""
                       ? "Can't Park for less than 20m"
                       : "(IN MINUTES)"}
                   </p>
-                </label>
               </div>
               <input
                 required
@@ -239,7 +246,7 @@ const Slots = (props) => {
                 onClick={book}
                 id='pay-btn'
               >
-                Pay Now
+                Book Now
               </button>
             </div>
           </div>

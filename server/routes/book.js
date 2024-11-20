@@ -7,6 +7,7 @@ const City = require("../models/Cities");
 const Transactions = require("../models/Transactions");
 const carSlot = require("../models/CarSlots");
 const bikeSlot = require("../models/BikeSlot");
+const UserVehicle = require("../models/UserVehicle");
 //user specific search ,login required
 router.post("/isAvailable/:id", getuser, async (req, res) => {
     const { city } = req.body;
@@ -63,60 +64,109 @@ router.post("/isAvailable", async (req, res) => {
             return res.json({ success: false, msg: `Sorry, No locations available in ${city}` });
         }
         let location = await Locations.find({ city: city_name.name });
-        console.log(location, city_name);
+        // console.log(location, city_name);
         res.status(200).json({ success: true, city_name, location });
     } catch (error) {
         console.log(error);
         res.json({ success: false, msg: "Some Error occured" });
     }
 })
-//get parking location status
-router.get("/location/status/:id", getuser, async (req, res) => {
+
+router.get("/getLocation/carslots/:id",getuser,async(req,res)=>{
 
     try {
-
         if (req.params.id === null) {
             console.log({ success: false, msg: "Please refresh" })
             return res.json({ success: false, msg: "Please refresh" });
         }
+        let location = await Locations.findById(req.params.id);
         let user = await User.findById(req.user.id);
         if (!user) {
             console.log({ success: false, msg: "user not found" });
             return res.json({ success: false, msg: "user not found" });
         }
-        let vehicle;
-        if (user.vehicle_type === "car") {
-            if (req.params.id === null) {
-                console.log({ success: false, msg: "Please refresh" });
-                return res.json({ success: false, msg: "Please refresh" })
-            }
-            vehicle = await carSlot.find({ location: req.params.id })
-            if (!vehicle) {
-                console.log({ success: false, msg: "some error occured" });
-                return res.json({ success: false, msg: "some error occured" })
-            }
-            console.log({ success: true });
-            return res.status(200).json({ success: true, vehicle });
+        let cars = await carSlot.find({location:req.params.id});
+        if (!cars) {
+            return res.json({ success: false, msg: "No slots for cars found!" });
         }
-        if (user.vehicle_type === "bike") {
-            if (req.params.id === null) {
-                console.log({ success: false, msg: "Please refresh" });
-                return res.json({ success: false, msg: "Please refresh" })
-            }
-            vehicle = await bikeSlot.find({ location: req.params.id })
-            if (!vehicle) {
-                console.log({ success: false, msg: "some error occured" });
-                return res.json({ success: false, msg: "some error occured" })
-            }
-            console.log({ success: true })
-            return res.status(200).json({ success: true, vehicle });
-        }
-
+        return res.status(200).json({ success: true, cars,location });
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.json({ success: false, msg: "Some Error occured" });
     }
 })
+
+router.get("/getLocation/bikeslots/:id",getuser,async(req,res)=>{
+    try {
+        if (req.params.id === null) {
+            console.log({ success: false, msg: "Please refresh" })
+            return res.json({ success: false, msg: "Please refresh" });
+        }
+        let location =await Locations.findById(req.params.id);
+        let user = await User.findById(req.user.id);
+        if (!user) {
+            console.log({ success: false, msg: "user not found" });
+            return res.json({ success: false, msg: "user not found" });
+        }
+        let bikes = await bikeSlot.find({location:req.params.id});
+        if (!bikes) {
+            return res.json({ success: false, msg: "No slots for bikes found!" });
+        }
+        return res.status(200).json({ success: true, bikes,location });
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, msg: "Some Error occured" });
+    }
+})
+
+
+//get parking location status
+// router.get("/location/status/:id", getuser, async (req, res) => {
+
+//     try {
+
+//         if (req.params.id === null) {
+//             console.log({ success: false, msg: "Please refresh" })
+//             return res.json({ success: false, msg: "Please refresh" });
+//         }
+//         let user = await User.findById(req.user.id);
+//         if (!user) {
+//             console.log({ success: false, msg: "user not found" });
+//             return res.json({ success: false, msg: "user not found" });
+//         }
+//         let vehicle;
+//         if (user.vehicle_type === "car") {
+//             if (req.params.id === null) {
+//                 console.log({ success: false, msg: "Please refresh" });
+//                 return res.json({ success: false, msg: "Please refresh" })
+//             }
+//             vehicle = await carSlot.find({ location: req.params.id })
+//             if (!vehicle) {
+//                 console.log({ success: false, msg: "some error occured" });
+//                 return res.json({ success: false, msg: "some error occured" })
+//             }
+//             console.log({ success: true });
+//             return res.status(200).json({ success: true, vehicle });
+//         }
+//         if (user.vehicle_type === "bike") {
+//             if (req.params.id === null) {
+//                 console.log({ success: false, msg: "Please refresh" });
+//                 return res.json({ success: false, msg: "Please refresh" })
+//             }
+//             vehicle = await bikeSlot.find({ location: req.params.id })
+//             if (!vehicle) {
+//                 console.log({ success: false, msg: "some error occured" });
+//                 return res.json({ success: false, msg: "some error occured" })
+//             }
+//             console.log({ success: true })
+//             return res.status(200).json({ success: true, vehicle });
+//         }
+
+//     } catch (error) {
+//         console.log(error);
+//         res.json({ success: false, msg: "Some Error occured" });
+//     }
+// })
 //book a slot ,login required
 router.post("/book/slot/:id", getuser, async (req, res) => {
     const { duration } = req.body;

@@ -62,7 +62,7 @@
     margin-top: 2%;
     gap:10px;
   }
-  .modal_body>span{
+  .locgrid_span{
     width: 150px;
     height: 35px;
     cursor: pointer;
@@ -77,7 +77,7 @@
     box-shadow: 7px 5px rgba(0, 0, 0, 0.6);
     transition: all 0.2s ease;
   }
-  .modal_body>span:hover{
+  .locgrid_span:hover{
     box-shadow: 7px 5px rgba(72, 71, 71, 0.5);
   }
   .label>label{

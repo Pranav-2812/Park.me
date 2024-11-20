@@ -107,11 +107,12 @@
     font-style: normal;
     font-size: large;
   }
-  .label>label>p{
+  .label>p{
     color: red;
-    font-size: small;
+    font-size: 12px;
   }
   .modal_body>input{
+    width: 90%;
     height: 35px;
     background-color: rgba(225, 225, 225, 0.7);
     text-indent: 10px;

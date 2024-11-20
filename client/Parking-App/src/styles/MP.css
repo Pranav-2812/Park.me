@@ -1,6 +1,6 @@
 .MP{
     display: flex;
-    /* flex-direction: row; */
+    /* flex-direction: column; */
     justify-content: space-between;
     height: 700px;
 }
@@ -20,7 +20,6 @@
     height: 650px;
     background-color: yellow;
     cursor: pointer;
-    margin-top: 1%;
   }
 
   .prof-dash>i{
@@ -38,7 +37,6 @@
     gap: 5%;
     height: 650px;
     background-color: yellow;
-    margin-top: 1%;
     animation: out 0.4s  ease-in forwards;
 }
 .prof-dash-after>i{
@@ -101,23 +99,26 @@
 }
 .main-content{
   width: 95%;
+  height: 1000px;
   padding: 0px 15px 25px 25px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* justify-content: center; */
   align-items: center;
+  gap: 15%;
 }
 .loc_grid{
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 3%;
-  height: 100vh;
+  height: fit-content;
   padding: 0 3% 0 3%;
-  margin-top: 7.5%;
+  margin-top: 0%;
 }
 .loc_grid>h2{
   display: flex;
-  width: 100%;
+  width: 98%;
   height: 50px;
   background-color: black;
   font-family: "Chakra Petch", sans-serif;
@@ -133,10 +134,33 @@
   display: flex;
   flex-direction: row;
   gap: 3%;
-  padding: 0 2% 0 2%;
+  padding:  2%  2%;
   justify-content: flex-start;
   align-items: center;
   background-color: transparent;
+}
+
+
+.map{
+  width: 95%;
+  padding: 0 2% 0 2%;
+  margin: 0;
+  padding: 0;
+  height: 100%
+}
+.maplibregl-popup-content
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px !important;
+  height: 25px !important;
+  padding: 5px 5px !important;
+  background-color: yellow !important;
+  color: black !important;
+  font-weight: 500 !important;
+  border-radius: 0 !important;
+  box-shadow: 5px 4px rgba(0, 0, 0, 0.601)!important;
 }
 @media (max-width:1025px) {
   .loc_grid{
@@ -146,6 +170,6 @@
     gap: 3%;
     height: 100vh;
     padding: 0 3% 0 3%;
-    margin-top: 2.5%;
+    margin-top: 0%;
   }
 }

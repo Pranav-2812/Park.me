@@ -79,9 +79,9 @@ const Notesate = (props) => {
       return json;
     }
   }
-  const locationStatus = async (locid) => {
+  const getBikeSlots = async (locid) => {
     props.setProgress(25)
-    const response = await fetch(`https://127.0.0.1:3000/status/location/status/${locid}`, {
+    const response = await fetch(`https://127.0.0.1:3000/status/getLocation/bikeslots/${locid}`, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,28 @@ const Notesate = (props) => {
     props.setProgress(75)
     if (json.success === true) {
       props.setProgress(100);
-      return json.vehicle
+      return json
+
+    }
+    else {
+      console.log(json.error);
+    }
+  }
+  const getCarSlots = async (locid) => {
+    props.setProgress(25)
+    const response = await fetch(`https://127.0.0.1:3000/status/getLocation/carslots/${locid}`, {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token")
+      }
+    });
+    props.setProgress(50)
+    const json = await response.json();
+    props.setProgress(75)
+    if (json.success === true) {
+      props.setProgress(100);
+      return json
 
     }
     else {
@@ -124,7 +145,7 @@ const Notesate = (props) => {
       return json;
     }
   }
-  const bookSlot = async (slotId)=>{
+  const bookSlot = async (slotId,dur)=>{
     props.setProgress(25);
     const response = await fetch(`https://127.0.0.1:3000/status/book/slot/${slotId}`,{
       method:"POST",
@@ -132,7 +153,7 @@ const Notesate = (props) => {
         "Content-Type":"application/json",
         "auth-token":localStorage.getItem("token")
       },
-      body:JSON.stringify({duration:35})
+      body:JSON.stringify({duration:dur})
     });
     props.setProgress(50);
     const json = await response.json();
@@ -160,7 +181,7 @@ const Notesate = (props) => {
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
               props.setProgress(75);
-              console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+              localStorage.setItem('coordinates',JSON.stringify({lat:latitude,lng:longitude}));
               try {
                 const response = await fetch(`https://api.olamaps.io/places/v1/reverse-geocode?latlng=${latitude},${longitude}&api_key=${ola_api_key}`);
                 const data = await response.json();
@@ -193,7 +214,7 @@ const Notesate = (props) => {
   
   return (
     <div>
-      <noteContext.Provider value={{ Fetchdata, locationStatus,data,available,setData,setAvail,bookSlot, isAvailable,isAvailableGen, updateSlot,getUserLocation }}>{props.children}</noteContext.Provider>
+      <noteContext.Provider value={{ Fetchdata,data,available,setData,setAvail,bookSlot, isAvailable,isAvailableGen, updateSlot,getUserLocation,getBikeSlots,getCarSlots }}>{props.children}</noteContext.Provider>
     </div>
   )
 }

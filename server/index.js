@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
 app.use("/auth",require("./routes/auth"));
 app.use("/owner",require("./routes/owner"));
 app.use("/status",require("./routes/book"));
+app.use("/usr",require("./routes/user"));
 
 server.listen(3000, () => {
   console.log('Secure server running on https://127.0.0.1:3000');

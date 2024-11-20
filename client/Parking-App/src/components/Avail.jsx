@@ -212,7 +212,7 @@ export default function Avail(props) {
   // };
 
   return (
-    <div className='form-container' data-aos="fade-up-right">
+    <div className='form-container' data-aos="fade-up-right" data-aos-duration="1000">
       <div className="login-form-container" id='avail-main'>
         <h2>Check Availability</h2>
         <button className='form-btn' onClick={getLocation}>

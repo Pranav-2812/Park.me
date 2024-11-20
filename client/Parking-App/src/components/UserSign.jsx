@@ -52,15 +52,17 @@ const UserSign = (props) => {
                     <div className="parts">
                         <div className="first-half">
                             <div className="input-format">
-                                <label htmlFor="name">Name</label>
+                                <div className="label"><label htmlFor="name">Name</label></div>
                                 <input required type='text' name="name" onChange={change} autoComplete="on" value={creds.name} id="name" placeholder="" />
                             </div>
                             <div className="input-format">
-                                <label htmlFor="email">Email</label>
+                                <div className="label"><label htmlFor="email">Email</label></div>
                                 <input required type='email' name="email" onChange={change} autoComplete="on" id="email" value={creds.email} placeholder="" />
                             </div>
                             <div className="input-format">
+                                <div className="label">
                                 <label htmlFor="password">Password</label>
+                                </div>
                                 <input required type="password" name="password" onChange={change} autoComplete="on" id="password" value={creds.password} placeholder="" />
                             </div>
                             <div className="input-format">
@@ -80,7 +82,7 @@ const UserSign = (props) => {
                                 <input required type="text" name="vehicle_no" id="vehicle_no" onChange={change} autoComplete="on" value={creds.vehicle_no} placeholder="Ex:AB22CD1111" />
                             </div>
                             <div className="input-format">
-                                <label htmlFor="vehicle_type">Vehicle Type</label>
+                               <div className="label"> <label htmlFor="vehicle_type">Vehicle Type</label></div>
                                 <select required name='vehicle_type' id='vehicle_type' value={creds.vehicle_type} autoComplete="on" onChange={change}>
                                     <option>Select Type</option>
                                     <option>bike</option>
@@ -88,14 +90,14 @@ const UserSign = (props) => {
                                 </select>
                             </div>
                             <div className="input-format">
-                                <label htmlFor="city">City</label>
+                                <div className="label"><label htmlFor="city">City</label></div>
                                 <input required type='text' name="city" onChange={change} value={creds.city} autoComplete="on" id="city" placeholder="" />
                             </div>
 
                         </div>
                     </div>
-                    <button className='form-btn' disabled={creds.password !== creds.cnf_pass} type='submit'>Register</button>
-                    <button className='form-btn' type='reset' >Clear</button>
+                    <button className='form-btn' disabled={creds.password !== creds.cnf_pass} type='submit' style={{marginBottom:"0"}}>Register</button>
+                    <button className='form-btn' type='reset'style={{marginBottom:"0"}} >Clear</button>
                 </form>
 
                 <h3>Already Registered?<Link className='Link' to={"/Login"}>Login</Link></h3>
