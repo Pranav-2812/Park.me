@@ -5,12 +5,31 @@ import LocGrid from './LocGrid'
 import AOS from "aos"
 import "aos/dist/aos.css"
 import olaMaps from '../Service/olaMaps'
+import userlogo from "../asset/userlogo.png"
+import ownerlogo from "../asset/ownerlogo.png"
+import { Link, useNavigate } from 'react-router-dom'
+import "../styles/Modal.css"
 const MP = (props) => {
   const profDashRef = useRef(null);
   const mapRef = useRef("map");
   const [disp, setDisp] = useState(false);
   const [data, setMpData] = useState("");
   const [available, setMpAvail] = useState("");
+  const [modal, setModal] = useState(false);
+  // Modal open/close handlers
+  const openModal = () => setModal(true);
+  const closeModal = () => setModal(false);
+
+  // Handle outside click to close modal
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (modal && e.target.classList.contains("booking_modal")) {
+        closeModal();
+      }
+    };
+    window.addEventListener("click", handleOutsideClick);
+    return () => window.removeEventListener("click", handleOutsideClick);
+  }, [modal]);
   const click = () => {
     if (disp === true) {
       profDashRef.current.setAttribute("class", "prof-dash")
@@ -23,8 +42,8 @@ const MP = (props) => {
 
   }
   const context = useContext(noteContext);
-  const { Fetchdata, setData, setAvail, getUserLocation, isAvailableGen } = context;
-
+  const { Fetchdata, setData, setAvail, getUserLocation, isAvailableGen,deleteAC } = context;
+  const navigate = useNavigate();
   useEffect(() => {
     async function getData() {
       const result = await Fetchdata();
@@ -102,6 +121,18 @@ const MP = (props) => {
     setAvail((prev) => prev = res);
     setMpAvail((prev) => prev = res);
   }
+  const deleteAcc = async()=>{
+    const type = localStorage.getItem("acc");
+    const resonse = await deleteAC(type);
+    if(resonse.success === true){
+      alert("Account Deleted Successfully!");
+      localStorage.clear();
+      navigate("/Home")
+    }
+    else{
+      console.log(resonse);
+    }
+  }
   return (
     <div className='MP' >
       <div className="main-dash" >
@@ -134,30 +165,39 @@ const MP = (props) => {
           <div className="map" id='map' ref={mapRef}></div>
         </div>
 
-        <div className="prof-dash" ref={profDashRef}  >
+        <div className="prof-dash" ref={profDashRef} >
           <i className="fa-solid fa-angle-left" onClick={click}></i>
           {data ? localStorage.getItem("acc") === "user" ?
-            <div className='user'>
-              <p>{data.name}</p>
-              <p>{data.email}</p>
-              <p>{data.Mob_no}</p>
-              <p>{data.vehicle_number}</p>
-              <p>{data.vehicle_type}</p>
-              <p>{data.city}</p>
-              <p>{data.vehicles}</p>
+            <div className='user' data-aos="fade-left" data-aos-duration="2500">
+              <Link to={"/Dashboard/user/dash"}><img src={userlogo} className='prof-logo' title='Profile'></img></Link>
+              <p><b>Name:</b> {data.name}</p>
+              <p><b>Email:</b> {data.email}</p>
+              <p><b>Mob No</b>: {data.Mob_no}</p>
+              <p><b>City:</b> {data.city}</p>
+              <p><b>Total Vehicles:</b> {data.vehicles}</p>
+              <button type='button' onClick={openModal}>Delete Account</button>
             </div>
-            : <div className='owner'>
-              <p>{data.name}</p>
-              <p>{data.ucc}</p>
-              <p>{data.email}</p>
-              <p>{data.Mob_no}</p>
-              <p>{data.city}</p>
-              <p>{data.locations}</p>
+            : <div className='owner' data-aos="fade-left" data-aos-duration="2500">
+              <Link to={"/"}><img src={ownerlogo} className='prof-logo' title='Profile'></img></Link>
+              <p><b>Name:</b> {data.name}</p>
+              <p><b>UCC:</b> {data.ucc}</p>
+              <p><b>Email:</b> {data.email}</p>
+              <p><b>Mob No:</b> {data.Mob_no}</p>
+              <p><b>City:</b> {data.city}</p>
+              <p><b>Locations:</b> {data.locations}</p>
+              <button type='button' onClick={openModal}>Delete Account</button>
             </div>
             : <p>Loading data...</p>}
         </div>
       </div>
-
+      {modal?(
+        <div className="booking_modal">
+          <div className="modal_content">
+            <h3>Are you Sure?</h3>
+            <button type='button' className='del-btn' onClick={deleteAcc}>Yes</button>
+          </div>
+        </div>
+      ):""}
     </div>
   )
 }

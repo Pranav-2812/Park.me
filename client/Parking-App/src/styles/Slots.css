@@ -53,7 +53,7 @@
     background-color: rgba(0,0,0,0.4);
     backdrop-filter: blur(3px);
 }
-.modal_content{
+.modal_content,.vehicle_prompt{
     background-color: yellow;
     margin: 15% auto;
     padding: 20px 10px;
@@ -61,6 +61,7 @@
 }
 .modal_header{
     display: flex;
+    width: 95%;
     flex-direction: row;
     justify-content: space-between;
     font-family: "Chakra Petch", sans-serif;
@@ -142,3 +143,31 @@
   .modal_body>button:hover{
     box-shadow:7px 5px rgba(0, 0, 0, 0.7) ;
   }
+.vehicle_prompt{
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  height: 200px;
+}
+.ok-btn{
+  width: 50%;
+    height: 30px;
+    margin: 0 auto;
+    margin-top: 2%;
+    border: none;
+    background-color: black;
+    color: yellow;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    box-shadow: 7px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+}
+.ok-btn:hover{
+  box-shadow:7px 5px rgba(0, 0, 0, 0.7) ;
+}

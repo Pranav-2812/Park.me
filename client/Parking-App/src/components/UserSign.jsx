@@ -36,7 +36,8 @@ const UserSign = (props) => {
                 navigate('/DashBoard');
             }
             else {
-                alert(json.error);
+                props.setProgress(100)
+                alert(json.msg);
             }
     
         }

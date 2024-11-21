@@ -14,10 +14,10 @@ const BikeSlotGrid = () => {
   useEffect(() => {
     async function status() {
       if (available) {
-        const id = available.location[0]._id;
-        console.log(available, id)
-        if (id !== null) {
-          const result = await getBikeSlots(id);
+        const locId =  localStorage.getItem('locId');
+        console.log(locId)
+        if (locId !== null) {
+          const result = await getBikeSlots(locId);
           setSlots((prev) => prev = result.bikes);
           setLoc((prev)=>prev=result.location);
           localStorage.setItem("bikeSlots", JSON.stringify(slots));
@@ -37,19 +37,19 @@ const BikeSlotGrid = () => {
     // }
     async function reload() {
       if (available) {
-        const id = available.location[0]._id;
-        if (id !== null) {
-          const result = await getBikeSlots(id);
+        const locId =  localStorage.getItem('locId');
+        console.log(locId)
+        if (locId !== null) {
+          const result = await getBikeSlots(locId);
           setSlots((prev) => prev = result.bikes);
           setLoc((prev)=>prev=result.location);
           localStorage.setItem("bikeSlots", JSON.stringify(slots));
-          console.log(slots, result)
-        }
       }
       else{
         setSlots((prev)=>JSON.parse(localStorage.getItem("bikeSlots")));
       }
     }
+  }
     reload();
   }, [document.location.reload])
 
@@ -66,7 +66,7 @@ const BikeSlotGrid = () => {
           <h2>Bike Parking Slots</h2>
           <div className='SlorGrid' >
             {slots ? <div className='content'>{slots.map((slot) => {
-              return <Slots key={slot._id} info={slot} loc={loc} />
+              return <Slots key={slot._id} info={slot} loc={loc} type={"bike"}/>
             })}</div> : "No Slot available"}
 
           </div>

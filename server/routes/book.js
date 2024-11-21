@@ -72,7 +72,7 @@ router.post("/isAvailable", async (req, res) => {
     }
 })
 
-router.get("/getLocation/carslots/:id",getuser,async(req,res)=>{
+router.get("/getLocation/carslots/:id", getuser, async (req, res) => {
 
     try {
         if (req.params.id === null) {
@@ -85,34 +85,34 @@ router.get("/getLocation/carslots/:id",getuser,async(req,res)=>{
             console.log({ success: false, msg: "user not found" });
             return res.json({ success: false, msg: "user not found" });
         }
-        let cars = await carSlot.find({location:req.params.id});
+        let cars = await carSlot.find({ location: req.params.id });
         if (!cars) {
             return res.json({ success: false, msg: "No slots for cars found!" });
         }
-        return res.status(200).json({ success: true, cars,location });
+        return res.status(200).json({ success: true, cars, location });
     } catch (error) {
         console.log(error.message);
         res.json({ success: false, msg: "Some Error occured" });
     }
 })
 
-router.get("/getLocation/bikeslots/:id",getuser,async(req,res)=>{
+router.get("/getLocation/bikeslots/:id", getuser, async (req, res) => {
     try {
         if (req.params.id === null) {
             console.log({ success: false, msg: "Please refresh" })
             return res.json({ success: false, msg: "Please refresh" });
         }
-        let location =await Locations.findById(req.params.id);
+        let location = await Locations.findById(req.params.id);
         let user = await User.findById(req.user.id);
         if (!user) {
             console.log({ success: false, msg: "user not found" });
             return res.json({ success: false, msg: "user not found" });
         }
-        let bikes = await bikeSlot.find({location:req.params.id});
+        let bikes = await bikeSlot.find({ location: req.params.id });
         if (!bikes) {
             return res.json({ success: false, msg: "No slots for bikes found!" });
         }
-        return res.status(200).json({ success: true, bikes,location });
+        return res.status(200).json({ success: true, bikes, location });
     } catch (error) {
         console.log(error.message);
         res.json({ success: false, msg: "Some Error occured" });
@@ -169,7 +169,7 @@ router.get("/getLocation/bikeslots/:id",getuser,async(req,res)=>{
 // })
 //book a slot ,login required
 router.post("/book/slot/:id", getuser, async (req, res) => {
-    const { duration } = req.body;
+    const { duration, type } = req.body;
     const io = req.app.get("socket");
     io.emit("hi", "chalu ho gaya");
     try {
@@ -177,44 +177,67 @@ router.post("/book/slot/:id", getuser, async (req, res) => {
         if (!user) {
             return res.json({ success: false, msg: "Some error occured" });
         }
-        let slot;
-        let charges;
-        if (user.vehicle_type === "car") {
-            slot = await carSlot.findById(req.params.id);
-
-            if (!slot) {
-                return res.json({ success: false, msg: "Some error occured" });
+        let slot, charges;
+        let isBike = false; 
+        let isCar = false;
+        let vehicles = await UserVehicle.find({ userId: user.id });
+        vehicles.forEach((doc) => {
+            if (doc.vehicle_type === "car") {
+                isCar = true;
             }
-            charges = 1 * duration;
-            slot = await carSlot.findByIdAndUpdate(slot.id, { isAvailable: false, duration: duration }, { new: true });
-
-        }
-        if (user.vehicle_type === "bike") {
-
-            slot = await bikeSlot.findById(req.params.id);
-            if (!slot) {
-                return res.json({ success: false, msg: "Somr error occured" });
+            else if (doc.vehicle_type === "bike") {
+                isBike = true;
             }
-            charges = 0.5 * duration;
-            slot = await bikeSlot.findByIdAndUpdate(slot.id, { isAvailable: false, duration: duration }, { new: true });
+            else {
+                return res.status(401).json({ success: false, msg: "Can't fetch Vehicles" });
+            }
         }
+        )
+        if (type === "car") {
+            if (isCar) {
+                slot = await carSlot.findById(req.params.id);
+
+                if (!slot) {
+                    return res.json({ success: false, msg: "Some error occured" });
+                }
+                charges = 1 * duration;
+                slot = await carSlot.findByIdAndUpdate(slot.id, { isAvailable: false, duration: duration }, { new: true });
+            }
+            else {
+                return res.json({ success: false, msg: "You dont have a registered Car" });
+            }
+        }
+        if (type === "bike") {
+            if (isBike) {
+                slot = await bikeSlot.findById(req.params.id);
+                // console.log(slot);
+                if (!slot) {
+                    return res.json({ success: false, msg: "Somr error occured" });
+                }
+                charges = 0.5 * duration;
+                slot = await bikeSlot.findByIdAndUpdate(slot.id, { isAvailable: false, duration: duration }, { new: true });
+            }
+            else {
+                return res.json({ success: false, msg: "You dont have a registered bike" });
+            }
+        }
+ 
         let location = await Locations.findById(slot.location);
         let transaction = await Transactions.create({
             name: user.id,
             email: user.email,
             Mob_No: user.Mob_no,
             duration: duration,
-            location: slot.location,
+            location: location.address,
             slot_no: slot.id,
             charges: charges,
             vehicle_type: user.vehicle_type,
             vehicle_number: user.vehicle_number,
             city: location.city,
-            date: new Date().getDate()
+            date: new Date()
 
         });
         res.status(200).json({ success: true, transaction, slot });
-
         io.emit("book", transaction);
     } catch (error) {
         console.log(error);

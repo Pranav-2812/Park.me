@@ -4,6 +4,7 @@ const Locations = require("../models/Locations");
 const User = require("../models/Users");
 const getuser = require("../middleware/getuser");
 const City = require("../models/Cities");
+const transactions = require("../models/Transactions"); 
 
 
 const UserVehicle = require("../models/UserVehicle");
@@ -46,6 +47,22 @@ router.post("/add/vehicle",getuser,async(req,res)=>{
     } catch (error) {
         console.log(error.message);
         res.json({success:false,msg:error.message});
+    }
+})
+router.get("/usr/transactions",getuser,async(req,res)=>{
+    try {
+        let user = await User.findById(req.user.id);
+        if(!user){
+            return res.status(401).json({success:false,msg:"Not Authorised!"});
+        }
+        let transaction = await transactions.find({name:user.id});
+
+        if(!transaction){
+            return res.status(200).json({success:false,msg:"No Transactions so far!"});
+        }
+        res.status(200).json({success:true,transaction});
+    } catch (error) {
+        res.status(500).json({success:false,msg:"Some Error Occured"});
     }
 })
 module.exports = router;

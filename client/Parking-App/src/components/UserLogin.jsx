@@ -34,7 +34,8 @@ const UserLogin = (props) => {
             navigate('/DashBoard');
         }
         else {
-            console.log(json.error);
+            props.setProgress(100)
+            alert(json.msg)
         }
     }
     useEffect(()=>{

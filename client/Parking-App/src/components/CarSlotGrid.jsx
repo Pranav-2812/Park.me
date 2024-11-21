@@ -47,7 +47,7 @@ export default function CarSlotGrid() {
             <h2>Car Parking Slots</h2>
             <div className='SlorGrid' >
               {slots ? <div className='content'>{slots.map((slot) => {
-                return <Slots key={slot._id} info={slot} loc={loc} />
+                return <Slots key={slot._id} info={slot} loc={loc} type={"car"}/>
               })}</div> : "No Slot available"}
   
             </div>

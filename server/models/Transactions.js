@@ -17,7 +17,7 @@ const transSchema = new mongoose.Schema({
         required:true
     },
     location:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         required:true
     },
     slot_no:{

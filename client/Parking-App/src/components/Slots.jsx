@@ -104,6 +104,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import "../styles/Slots.css";
 import noteContext from '../Context/Notecontext';
 import socket from '../Service/socket';
+import { useNavigate } from 'react-router-dom';
 const Slots = (props) => {
   const context = useContext(noteContext);
   const { data, bookSlot } = context;
@@ -111,6 +112,7 @@ const Slots = (props) => {
   const [bookInfo, setBookInfo] = useState({ duration: 0 });
   const [modal, setModal] = useState(false);
   const ola_api_key = import.meta.env.VITE_OLA_API_KEY;
+  // const navigate = useNavigate();
   // Update slot availability styles on mount
   useEffect(() => {
     if (props.info._id) {
@@ -163,6 +165,7 @@ const Slots = (props) => {
 
   // Book slot handler
   const book = async () => {
+
     if (ref.current && ref.current.id) {
       const lat =  JSON.parse(localStorage.getItem('coordinates')).lat;
       const lng = JSON.parse(localStorage.getItem('coordinates')).lng
@@ -172,11 +175,39 @@ const Slots = (props) => {
       data.rows[0].elements.map((ele)=>{
         distance += ele.distance;
       });
-      if(distance > 5000){
+      if(distance > 7000){
         console.log("Cant park too far from location" ,distance);
+        document.getElementById("modal_content").style.display="none";
+        document.getElementById('vehicle_prompt').style.display="flex";
+        document.getElementById('prompt-msg').innerHTML ="Can't Park ! You're more than 7km far from Location.";
+        document.getElementById("dist-msg-1").innerHTML=`Current Distance : ${distance/1000} km (approx) `;
       }
       else{
-        console.log("can park");
+
+        const result = await bookSlot(ref.current.id,bookInfo.duration,props.type);
+        console.log(result);
+        if(result.success === true){
+          
+          document.getElementById("modal_content").style.display="none";
+          document.getElementById('vehicle_prompt').style.display="flex";
+          document.getElementById('prompt-msg').innerHTML = "Slot Booked !";
+          document.getElementById("dist-msg-1").innerHTML= "1.  Redirect to Google Maps <i className='fa-solid fa-map'></i>";
+          document.getElementById("dist-msg-2").innerHTML = "2. Click on Directons";
+          document.getElementById("dist-msg-3").innerHTML = "3. Start Navigation <i className='fa-solid fa-location-arrow'></i>";
+          let btn = document.createElement("button");
+          btn.setAttribute("class","ok-btn");
+          btn.innerHTML = "Start";
+          document.getElementById("vehicle_prompt").appendChild(btn);
+          btn.addEventListener("click",()=>{
+            closeModal();
+            window.open(`https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${Number(props.loc.latitude.$numberDecimal)},${Number(props.loc.longitude.$numberDecimal)}`,"_blank");
+            
+          })
+
+        }
+        else{
+          alert(result.msg);
+        }
       }
     }
   };
@@ -201,7 +232,7 @@ const Slots = (props) => {
 
       {modal ? (
         <div className="booking_modal">
-          <div className="modal_content">
+          <div className="modal_content" id='modal_content'>
             <div className="modal_header">
               <h2>Enter Details</h2>
               <span className="close_btn" onClick={closeModal}>&times;</span>
@@ -233,8 +264,8 @@ const Slots = (props) => {
                   Total payable for {String(bookInfo.duration)[0]==="0"?String(bookInfo.duration).slice(1):bookInfo.duration} min :{" "}
                   {data
                     ? (data.vehicle_type === "bike"
-                        ? "Rs." +String(bookInfo.duration)[0]==="0"?Number(String(bookInfo.duration).slice(1))* 0.5:bookInfo.duration *0.5
-                        : "Rs." +String(bookInfo.duration)[0]==="0"?Number(String(bookInfo.duration).slice(1))* 1:bookInfo.duration *1)
+                        ? `Rs.${String(bookInfo.duration)[0]==="0"?Number(String(bookInfo.duration).slice(1))* 0.5:bookInfo.duration *0.5}`
+                        : `Rs.${String(bookInfo.duration)[0]==="0"?Number(String(bookInfo.duration).slice(1))* 1:bookInfo.duration *1}`)
                     :alert("Some Error , please go back and refresh!")}
                 </span>
               ) : (
@@ -249,6 +280,12 @@ const Slots = (props) => {
                 Book Now
               </button>
             </div>
+          </div>
+          <div className="vehicle_prompt" id='vehicle_prompt'>
+              <h2 id='prompt-msg'></h2>
+              <h3 id='dist-msg-1'></h3>
+              <h3 id='dist-msg-2'></h3>
+              <h3 id='dist-msg-3'></h3>
           </div>
         </div>
       ) : (

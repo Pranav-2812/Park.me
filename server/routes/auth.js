@@ -9,6 +9,8 @@ var random = require("random-string-alphanumeric-generator");
 const JWTSecrect = process.env.VITE_JWT_SECRECT
 const getuser = require('../middleware/getuser');
 const getowner = require("../middleware/getowner");
+const UserVehicle = require("../models/UserVehicle");
+const Location = require("../models/Locations");
 //new account
 router.post("/Acc/newUser",[body('name').isEmpty().isLength({ min: 3 }),
     body('email').isEmail(), 
@@ -44,6 +46,11 @@ router.post("/Acc/newUser",[body('name').isEmpty().isLength({ min: 3 }),
                 city:req.body.city,
                 vehicles:req.body.vehicles
             })
+            await UserVehicle.create({
+                userId:user.id,
+                vehicle_number:req.body.vehicle_no,
+                vehicle_type:req.body.vehicle_type
+            });
            } catch (error) {
             console.log(error)
            }
@@ -55,7 +62,7 @@ router.post("/Acc/newUser",[body('name').isEmpty().isLength({ min: 3 }),
             try {
                 const jwtToken = jwt.sign(data, JWTSecrect,{expiresIn:"1h"});
                 console.log("success")
-                res.json({success:true,jwtToken});
+                res.json({success:true,jwtToken,account:"user"});
             } catch (error) {
                 console.log(error)
             }
@@ -100,7 +107,7 @@ router.post("/Acc/Owner",[body('name').isEmpty().isLength({ min: 3 }),
             }
             const jwtToken = jwt.sign(data, JWTSecrect,{expiresIn:"1h"});
            
-            res.json({success:true,jwtToken});
+            res.json({success:true,jwtToken,account:"owner"});
 
         }
         catch (error) {
@@ -120,11 +127,11 @@ body('password',"Password can't be empty").exists(),async(req,res)=>{
     try {
         let user = await User.findOne({email});
         if(!user){
-            return res.status(400).json({success,error:"Enter valid credentials"});
+            return res.status(400).json({success,msg:"Enter valid credentials"});
         }
         const passComp = await bcrypt.compare(password,user.password);
         if(!passComp){
-            return res.status(400).json({success,error:"Enter valid credentials"});                
+            return res.status(400).json({success,msg:"Enter valid credentials"});                
         }
         const data = {
             user:{
@@ -153,11 +160,11 @@ body('password',"Password can't be empty").exists(),async(req,res)=>{
     try {
         let owner = await Owner.findOne({ucc});
         if(!owner){
-            return res.status(400).json({success,error:"Enter valid credentials"});
+            return res.status(400).json({success,msg:"Enter valid credentials"});
         }
         const passComp = await bcrypt.compare(password,owner.password);
         if(!passComp){
-            return res.status(400).json({success,error:"Enter valid credentials"});                
+            return res.status(400).json({success,msg:"Enter valid credentials"});                
         }
         const data = {
             owner:{
@@ -197,4 +204,33 @@ router.post("/AccInfo/owner",getowner,async(req,res)=>{
         res.status(500).send("Some Error occured");
     }
 });
+
+router.delete("/delete/user",getuser,async(req,res)=>{
+    try {
+        let userId = req.user.id;
+        const user = await User.findById(userId).select("-password");
+        if(!user){
+            return res.status(400).json({success:false,msg:"NO account found!"});
+        }
+        await User.findByIdAndDelete(userId);
+        await UserVehicle.find({userId:userId}).deleteMany({userId:userId});
+        return res.status(200).json({success:true,msg:"Acoount Deleted"});
+    } catch (error) {
+        res.status(500).json({success:false,msg:"Some Error Occured"})
+    }
+});
+router.delete("/delete/owner",getowner,async(req,res)=>{
+    try {
+        let ownerId = req.owner.id;
+        const owner = await Owner.findById(ownerId).select("-password");
+        if(!owner){
+            return res.status(400).json({success:false,msg:"NO account found!"});
+        }
+        await Owner.findByIdAndDelete(ownerId);
+        await Location.find({owner:ownerId}).deleteMany({owner:ownerId});
+        return res.status(200).json({success:true,msg:"Account Deleted"});
+    } catch (error) {
+        res.status(500).json({success:false,msg:"Some Error Occured"})
+    }
+})
 module.exports = router

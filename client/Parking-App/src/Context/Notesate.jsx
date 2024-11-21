@@ -145,7 +145,7 @@ const Notesate = (props) => {
       return json;
     }
   }
-  const bookSlot = async (slotId,dur)=>{
+  const bookSlot = async (slotId,dur,type)=>{
     props.setProgress(25);
     const response = await fetch(`https://127.0.0.1:3000/status/book/slot/${slotId}`,{
       method:"POST",
@@ -153,7 +153,7 @@ const Notesate = (props) => {
         "Content-Type":"application/json",
         "auth-token":localStorage.getItem("token")
       },
-      body:JSON.stringify({duration:dur})
+      body:JSON.stringify({duration:dur,type:type})
     });
     props.setProgress(50);
     const json = await response.json();
@@ -211,10 +211,51 @@ const Notesate = (props) => {
       });
     });
   };
-  
+  const deleteAC = async(type)=>{
+    props.setProgress(25);
+    const response = await fetch(`https://127.0.0.1:3000/auth/delete/${type}`,{
+      method:"DELETE",
+      headers:{
+        "auth-token":localStorage.getItem("token")
+      }
+    });
+    props.setProgress(50);
+    const json = await response.json();
+    props.setProgress(75);
+    if(json.success === true){
+      props.setProgress(100);
+      return json;
+    }
+    else {
+      props.setProgress(100);
+      console.log(json.error);
+      return json;
+    }
+  }
+  const getTransaction = async()=>{
+    props.setProgress(25);
+    const response = await fetch(`https://127.0.0.1:3000/usr/usr/transactions`,{
+      method:"GET",
+      headers:{
+        "auth-token":localStorage.getItem("token")
+      }
+    });
+    props.setProgress(50);
+    const json = await response.json();
+    props.setProgress(75);
+    if(json.success === true){
+      props.setProgress(100);
+      return json;
+    }
+    else {
+      props.setProgress(100);
+      console.log(json.error);
+      return json;
+    }
+  }
   return (
     <div>
-      <noteContext.Provider value={{ Fetchdata,data,available,setData,setAvail,bookSlot, isAvailable,isAvailableGen, updateSlot,getUserLocation,getBikeSlots,getCarSlots }}>{props.children}</noteContext.Provider>
+      <noteContext.Provider value={{ Fetchdata,data,available,setData,setAvail,bookSlot, isAvailable,isAvailableGen, updateSlot,getUserLocation,getBikeSlots,getCarSlots,deleteAC ,getTransaction}}>{props.children}</noteContext.Provider>
     </div>
   )
 }
