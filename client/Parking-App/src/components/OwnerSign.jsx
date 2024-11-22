@@ -6,11 +6,12 @@ const OwnerSign = (props) => {
     const change = (event)=>{
         setCreds({...creds, [event.target.name]:event.target.value});
     }
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL;
     const submit = async(e)=>{
         e.preventDefault();
         const{name, email,password, mob,city} = creds;
-        const response = await fetch("http://127.0.0.1:3000/auth/Acc/Owner", {
+        const response = await fetch(`${url}/auth/Acc/Owner`, {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "application/json"

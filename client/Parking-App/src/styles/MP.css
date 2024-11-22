@@ -57,7 +57,8 @@
 
 .disp-msg {
   width: 500px;
-  height: 250px;
+  height: 600px;
+  margin-top: 3%;
   display: none;
   flex-direction: column;
   justify-content: center;

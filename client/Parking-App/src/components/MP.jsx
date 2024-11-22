@@ -175,6 +175,7 @@ const MP = (props) => {
               <p><b>Mob No</b>: {data.Mob_no}</p>
               <p><b>City:</b> {data.city}</p>
               <p><b>Total Vehicles:</b> {data.vehicles}</p>
+              <p><b>Vehicle Type :</b>{data.vehicle_type}</p>
               <button type='button' onClick={openModal}>Delete Account</button>
             </div>
             : <div className='owner' data-aos="fade-left" data-aos-duration="2500">

@@ -8,12 +8,13 @@ const UserLogin = (props) => {
     const change = (event)=>{
         setlogcred({...logcred,[event.target.name]:event.target.value})
     }
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL;
     const submit = async(e)=>{
         e.preventDefault();
         const {email,password} = logcred;
         props.setProgress(25)
-        const response = await fetch("https://127.0.0.1:3000/auth/login/userac", {
+        const response = await fetch(`${url}/auth/login/userac`, {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "application/json"

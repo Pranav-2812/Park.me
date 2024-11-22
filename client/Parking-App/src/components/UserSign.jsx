@@ -7,7 +7,7 @@ const UserSign = (props) => {
         setCreds({ ...creds, [event.target.name]: event.target.value })
     }
     const navigate = useNavigate();
-    
+    const url = import.meta.env.VITE_BACKEND_URL;
     const re = /^([A-Z]{2})(\d{2})([A-Z]{2})(\d{4})$/
     const submit = async (e) => {
         e.preventDefault();
@@ -18,7 +18,7 @@ const UserSign = (props) => {
         
         if(re.test(vehicle_no)){
             props.setProgress(35)
-            const response = await fetch("https://127.0.0.1:3000/auth/Acc/newUser", {
+            const response = await fetch(`${url}/auth/Acc/newUser`, {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "application/json"

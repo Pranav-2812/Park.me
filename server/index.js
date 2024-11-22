@@ -7,12 +7,12 @@ const express = require('express');
 var cors = require('cors');
 const {Server} = require("socket.io")
 const app = express();
-const https = require("https");
-const options = {
-  key: fs.readFileSync('../../Park.me/localhost-key.pem'),
-  cert: fs.readFileSync('../../Park.me/localhost-cert.pem')
-};
-const server = https.createServer(options, app);
+const http = require("http");
+// const options = {
+//   key: fs.readFileSync('../../Park.me/localhost-key.pem'),
+//   cert: fs.readFileSync('../../Park.me/localhost-cert.pem')
+// };
+const server = http.createServer(app);
 
 
 app.use(cors())
@@ -42,5 +42,5 @@ app.use("/status",require("./routes/book"));
 app.use("/usr",require("./routes/user"));
 
 server.listen(3000, () => {
-  console.log('Secure server running on https://127.0.0.1:3000');
+  console.log('Secure server running on http://127.0.0.1:3000');
 });

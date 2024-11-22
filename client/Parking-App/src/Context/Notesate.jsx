@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import noteContext from './Notecontext'
 // import io from "socket.io-client";
 const Notesate = (props) => {
-  // const socket = io("https://127.0.0.1:3000/",{
+  // const socket = io("${url}/",{
   //   transports:["websocket"]
   // });
   const ola_api_key = import.meta.env.VITE_OLA_API_KEY;
+  const url = import.meta.env.VITE_BACKEND_URL;
   const [data,setData] = useState(null);
   const [available, setAvail] = useState(null);
   const Fetchdata = async () => {
     props.setProgress(25)
-    const response = await fetch(`https://127.0.0.1:3000/auth/AccInfo/${localStorage.getItem('acc')}`, {
+    const response = await fetch(`${url}/auth/AccInfo/${localStorage.getItem('acc')}`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ const Notesate = (props) => {
   const isAvailable = async (id,city= null) => {
     props.setProgress(25)
 
-    const response = await fetch(`https://127.0.0.1:3000/status/isAvailable/${id}`, {
+    const response = await fetch(`${url}/status/isAvailable/${id}`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +62,7 @@ const Notesate = (props) => {
   const isAvailableGen = async (city) => {
     props.setProgress(25)
 
-    const response = await fetch(`https://127.0.0.1:3000/status/isAvailable`, {
+    const response = await fetch(`${url}/status/isAvailable`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json"
@@ -81,7 +82,7 @@ const Notesate = (props) => {
   }
   const getBikeSlots = async (locid) => {
     props.setProgress(25)
-    const response = await fetch(`https://127.0.0.1:3000/status/getLocation/bikeslots/${locid}`, {
+    const response = await fetch(`${url}/status/getLocation/bikeslots/${locid}`, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +103,7 @@ const Notesate = (props) => {
   }
   const getCarSlots = async (locid) => {
     props.setProgress(25)
-    const response = await fetch(`https://127.0.0.1:3000/status/getLocation/carslots/${locid}`, {
+    const response = await fetch(`${url}/status/getLocation/carslots/${locid}`, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
@@ -123,7 +124,7 @@ const Notesate = (props) => {
   }
   const updateSlot = async (id,duration) => {
     props.setProgress(25);
-    const response = await fetch(`https://127.0.0.1:3000/status/location/slot/update/${id}`, {
+    const response = await fetch(`${url}/status/location/slot/update/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -147,7 +148,7 @@ const Notesate = (props) => {
   }
   const bookSlot = async (slotId,dur,type)=>{
     props.setProgress(25);
-    const response = await fetch(`https://127.0.0.1:3000/status/book/slot/${slotId}`,{
+    const response = await fetch(`${url}/status/book/slot/${slotId}`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json",
@@ -213,7 +214,7 @@ const Notesate = (props) => {
   };
   const deleteAC = async(type)=>{
     props.setProgress(25);
-    const response = await fetch(`https://127.0.0.1:3000/auth/delete/${type}`,{
+    const response = await fetch(`${url}/auth/delete/${type}`,{
       method:"DELETE",
       headers:{
         "auth-token":localStorage.getItem("token")
@@ -234,7 +235,7 @@ const Notesate = (props) => {
   }
   const getTransaction = async()=>{
     props.setProgress(25);
-    const response = await fetch(`https://127.0.0.1:3000/usr/usr/transactions`,{
+    const response = await fetch(`${url}/usr/usr/transactions`,{
       method:"GET",
       headers:{
         "auth-token":localStorage.getItem("token")

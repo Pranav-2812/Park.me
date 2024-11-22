@@ -3,13 +3,17 @@ import react from '@vitejs/plugin-react'
 import fs from "fs"
 
 // https://vitejs.dev/config/
+// export default defineConfig({
+//   plugins: [react()],
+//   server: {
+//     https: {
+//       key: fs.readFileSync('../../localhost-key.pem'),
+//       cert: fs.readFileSync('../../localhost-cert.pem')
+//     },
+//     port: 5173 // Or whichever port you prefer
+//   }
+// })
+
 export default defineConfig({
   plugins: [react()],
-  server: {
-    https: {
-      key: fs.readFileSync('../../localhost-key.pem'),
-      cert: fs.readFileSync('../../localhost-cert.pem')
-    },
-    port: 5173 // Or whichever port you prefer
-  }
 })

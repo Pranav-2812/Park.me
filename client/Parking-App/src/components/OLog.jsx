@@ -8,12 +8,13 @@ const OLog = (props) => {
     const change = (event)=>{
         setlogcreds({...logcreds,[event.target.name]:event.target.value});
     }
+    const url = import.meta.env.VITE_BACKEND_URL;
     const submit = async(e)=>{
         e.preventDefault();
         const{name, ucc, password} = logcreds;
         console.log(name, logcreds.name)
         props.setProgress(25)
-        const response = await fetch("http://127.0.0.1:3000/auth/login/ownerac", {
+        const response = await fetch(`${url}/auth/login/ownerac`, {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "application/json"

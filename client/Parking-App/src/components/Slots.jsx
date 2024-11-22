@@ -175,11 +175,11 @@ const Slots = (props) => {
       data.rows[0].elements.map((ele)=>{
         distance += ele.distance;
       });
-      if(distance > 7000){
+      if(distance > 5000){
         console.log("Cant park too far from location" ,distance);
         document.getElementById("modal_content").style.display="none";
         document.getElementById('vehicle_prompt').style.display="flex";
-        document.getElementById('prompt-msg').innerHTML ="Can't Park ! You're more than 7km far from Location.";
+        document.getElementById('prompt-msg').innerHTML ="Can't Park ! You're more than 5km far from Location.";
         document.getElementById("dist-msg-1").innerHTML=`Current Distance : ${distance/1000} km (approx) `;
       }
       else{
