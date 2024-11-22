@@ -18,7 +18,7 @@ const server = http.createServer(app);
 app.use(cors())
 const io = new Server(server,{
   cors:{
-    origin:"https://localhost:5173",
+    origin:"https://localhost:5173" || "https://park-me-client.vercel.app/",
     methods:["POST","GET","DELETE","PUT"],
     credentials:true
   }
