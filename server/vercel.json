@@ -1,15 +1,30 @@
 {
-    "version":2,
-    "builds":[
+    "version": 2,
+    "builds": [
         {
-            "src":"*.js",
-            "use":"@vercel/node"
+            "src": "*.js",
+            "use": "@vercel/node"
         }
     ],
-    "routes":[
+    "routes": [
         {
-            "src":"/(.*)",
-            "dest":"/"
+            "src": "/(.*)",
+            "dest": "/"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/socket.io/(.*)",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "https://park-me-client.vercel.app"
+                },
+                {
+                    "key": "Access-Control-Allow-Methods",
+                    "value": "GET,POST,PUT,DELETE"
+                }
+            ]
         }
     ]
 }
