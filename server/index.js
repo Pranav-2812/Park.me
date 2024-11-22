@@ -14,8 +14,13 @@ const http = require("http");
 // };
 const server = http.createServer(app);
 
+const corsOptions = {
+  origin: "https://park-me-client.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
-app.use(cors())
 const io = new Server(server,{
   cors:{
     origin:"https://park-me-client.vercel.app",
