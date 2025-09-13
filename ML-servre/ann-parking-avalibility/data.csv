@@ -1,0 +1,47 @@
+day,time_slot,is_festival,is_holiday,location_type,city_type,nearby_transport,upcoming_festival,crowd_percentage
+Monday,06:00-06:30,No,No,Market,Tier I,Bus Stand,No,0.45
+Tuesday,17:00-17:30,Yes,No,Residential,Tier II,Railway Station,Yes,0.80
+Wednesday,12:00-12:30,No,No,Office Area,Tier III,Airport,No,0.30
+Thursday,21:00-21:30,No,No,Market,Tier I,Bus Stand,Yes,0.60
+Friday,17:30-18:00,No,No,Commercial,Tier II,None,No,0.50
+Saturday,06:30-07:00,Yes,Yes,Recreational,Tier III,Bus Stand,Yes,0.90
+Sunday,12:30-13:00,No,Yes,Residential,Tier I,None,No,0.40
+Monday,21:30-22:00,No,No,Market,Tier II,Railway Station,No,0.55
+Tuesday,07:00-07:30,No,No,Commercial,Tier III,Airport,Yes,0.35
+Wednesday,18:00-18:30,Yes,No,Recreational,Tier I,Bus Stand,Yes,0.85
+Thursday,13:00-13:30,No,No,Office Area,Tier II,None,No,0.25
+Friday,22:00-22:30,No,No,Market,Tier III,Railway Station,Yes,0.70
+Saturday,18:30-19:00,Yes,Yes,Recreational,Tier I,Airport,Yes,0.95
+Sunday,07:30-08:00,No,Yes,Residential,Tier II,Bus Stand,No,0.30
+Monday,13:30-14:00,No,No,Commercial,Tier III,None,No,0.40
+Tuesday,22:30-23:00,Yes,No,Market,Tier I,Bus Stand,Yes,0.75
+Wednesday,08:00-08:30,No,No,Office Area,Tier II,Railway Station,No,0.20
+Thursday,19:00-19:30,No,No,Commercial,Tier III,Airport,No,0.55
+Friday,14:00-14:30,Yes,No,Recreational,Tier I,Bus Stand,Yes,0.88
+Saturday,23:00-23:30,No,Yes,Market,Tier II,Railway Station,No,0.65
+Sunday,19:30-20:00,No,Yes,Residential,Tier III,None,No,0.35
+Monday,08:30-09:00,No,No,Commercial,Tier I,Airport,No,0.50
+Tuesday,14:30-15:00,Yes,No,Recreational,Tier II,Bus Stand,Yes,0.85
+Wednesday,23:30-00:00,No,No,Market,Tier III,Railway Station,No,0.40
+Thursday,09:00-09:30,No,No,Office Area,Tier I,None,No,0.30
+Friday,18:30-19:00,Yes,No,Commercial,Tier II,Bus Stand,Yes,0.75
+Saturday,15:00-15:30,No,Yes,Recreational,Tier III,Airport,No,0.60
+Sunday,00:00-00:30,No,Yes,Residential,Tier I,Railway Station,No,0.25
+Monday,19:00-19:30,No,No,Market,Tier II,Bus Stand,No,0.55
+Tuesday,09:30-10:00,Yes,No,Commercial,Tier III,Airport,Yes,0.90
+Wednesday,15:30-16:00,No,No,Office Area,Tier I,None,No,0.35
+Thursday,00:30-01:00,No,No,Market,Tier II,Railway Station,No,0.65
+Friday,10:00-10:30,No,No,Commercial,Tier III,Bus Stand,No,0.40
+Saturday,19:30-20:00,Yes,Yes,Recreational,Tier I,Airport,Yes,0.95
+Sunday,13:00-13:30,No,Yes,Residential,Tier II,None,No,0.30
+Monday,01:00-01:30,No,No,Market,Tier III,Railway Station,No,0.50
+Tuesday,20:00-20:30,No,No,Commercial,Tier I,Bus Stand,No,0.60
+Wednesday,10:30-11:00,Yes,No,Recreational,Tier II,Airport,Yes,0.85
+Thursday,16:00-16:30,No,No,Office Area,Tier III,None,No,0.20
+Friday,01:30-02:00,No,No,Market,Tier I,Railway Station,Yes,0.70
+Saturday,07:30-08:00,Yes,Yes,Recreational,Tier II,Bus Stand,Yes,0.90
+Sunday,20:30-21:00,No,Yes,Residential,Tier III,None,No,0.35
+Monday,11:00-11:30,No,No,Commercial,Tier I,Airport,No,0.45
+Tuesday,02:00-02:30,Yes,No,Market,Tier II,Bus Stand,Yes,0.75
+Wednesday,21:00-21:30,No,No,Office Area,Tier III,Railway Station,No,0.30
+Thursday,11:30-12:00,No,No,Commercial,Tier I,Airport,No,0.55
